@@ -5,7 +5,6 @@ endif
 
 " display settings
 set background=dark     " enable for dark terminals
-set nowrap              " dont wrap lines
 set scrolloff=2         " 2 lines above/below cursor when scrolling
 set number              " show line numbers
 set showmatch           " show matching bracket (briefly jump)
@@ -42,7 +41,7 @@ set nobackup            " no backup~ files.
 set viminfo='20,\"500   " remember copy registers after quitting in the .viminfo file -- 20 jump links, regs up to 500 lines'
 set hidden              " remember undo after quitting
 set history=50          " keep 50 lines of command history
-set mouse=v             " use mouse in visual mode (not normal,insert,command,help mode
+set mouse=a            " use mouse in visual mode (not normal,insert,command,help mode
 
 
 " color settings (if terminal/gui supports it)
