@@ -49,3 +49,7 @@
 [pull]
 	# pull will only do fastforwards
 	ff = only
+[user]
+	name = Cheddies
+[push]
+	default = simple
