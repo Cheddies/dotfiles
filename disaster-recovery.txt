@@ -1,0 +1,68 @@
+To try and make disaster recovery as simple as possible we use a multi purpose box that easily takes over the role of a core network function, a service that does not have failover configured. Tom is our Disaster Recovery server.
+It can replace the
+* firewall
+* Load Balancer
+* Sphinx on Buster Keaton
+in case they stop working.
+
+## How it works
+To replace any service with Tom, you have to open the /etc/rc.local file on Tom, and all you have to do is uncomment the desired functions and reboot to enable the service. Once the problem resolved just uncomment the lines and reboot server again.
+
+## Firewall
+To make Tom act as the firewall:
+Uncomment the following lines in the file /etc/rc.local in the firewall section.
+ifup br0
+iptables-restore < /etc/iptables/saved.rules/iptables.rules
+Create a copy of the firewall rules on Goomba
+ssh root@89.202.185.2
+sudo iptables-save > /etc/iptables/saved.rules/backup.$(date +%Y.%m.%d)
+Copy the files with the rules from Goomba to Tom
+sudo scp /etc/iptables/saved.rules/backup.$(date +%Y.%m.%d) tom:/etc/iptables/saved.rules/iptables.rules
+Load in the following kernel modules
+(note: if you get the error message could not insert module... File exists it means that the module is already loaded)
+cd /lib/modules/3.2.0-4-amd64/kernel/net/bridge
+sudo insmod bridge.ko
+cd /lib/modules/3.2.0-4-amd64/kernel/net/netfilter/
+sudo insmod x_tables.ko
+sudo insmod nf_conntrack.ko
+sudo insmod xt_physdev.ko
+sudo insmod xt_comment.ko
+sudo insmod xt_tcpudp.ko 
+sudo insmod xt_state.ko
+Plug the internet cable in to eth0 and the switch in to eth1 on Tom
+Reboot
+Note: It may take a few minutes for the bridge to start working due to the way arp works.
+
+## Load Balancer
+To make Tom act as the Load Balancer:
+MAKE SURE THE OLD LOAD BALANCER IS TURNED OFF
+MAKE ABSOLUTELY CERTAIN THE OLD LOAD BALANCER IS TURNED OFF AGAIN
+Add these virtual IP addresses for the virtual load balancers by typing these commands on Tom:
+For the main loadbalancer IP:
+sudo ip address add 89.202.185.10/24 dev eth0
+For BMJ careersfair:
+sudo ip address add 89.202.185.11/24 dev eth0
+For events.channel4.com:
+(this is old and can be removed)
+sudo ip address add 89.202.185.12/24 dev eth0
+For competition.ztedevices.co.uk:
+(this is old and can be removed)
+sudo ip address add 89.202.185.13/24 dev eth0
+For showcase.bbcworldwide.com:
+sudo ip address add 89.202.185.14/24 dev eth0
+For thamesandhudson.com:
+sudo ip address add 89.202.185.36/24 dev eth0
+For otsuka-europe.com:
+sudo ip address add 89.202.185.16/24 dev eth0
+Then:
+Start Keepalived
+sudo service keepalived start
+If you want the changes to survive a reboot, uncomment these lines you just typed in in the file /etc/rc.local so when the server restarts it will execute these commands.
+
+## Sphinx
+To make Tom act as the Sphinx server:
+Don't forget you need to put the indexer on a cron else the indexes will become stale
+You must update the search host in the fastcgi config to point to tom.redsnapper.net
+Uncomment these lines:
+indexer --all --rotate 
+service sphinxsearch start

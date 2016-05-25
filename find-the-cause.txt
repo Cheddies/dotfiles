@@ -1,0 +1,104 @@
+Somebody gets an error when tries to load a page? You get a blank page every time you try to load a site? You have any other problem? This guide will help you to find out what is happening and why.
+
+## Your best friends
+Here are some suggestions about which commands, software you can use to find out more about the situation:
+df
+With df you can easily find out how much space is used and available on the partitions.
+Use df -h to get a more understandable format.
+If a partition's usage is more than 90%, then you have to free up some space on the partition!
+
+## htop
+htop is a really useful monitoring tool. htop provides information about:
+CPU usage - Look out for high usage (90%-100%)
+Memory (RAM) usage - Look out for high usage (90%-100%)
+SWAP (virtual memory) usage - 0 is the best
+Number of tasks
+CPU load - you should keep it below 1, otherwise the server will be slow!
+List of running processes (with useful info)
+Uptime - you don't have to worry about it
+
+## iftop
+With iftop you can see which connections are using the most bandwidth. This tool is useful to find out why is your bandwidth usage is high, what is the source and destination of the connection and where is it coming from. If you need to do deeper investigation, you should use tcpdump.
+Useful:
+Press P to find out which ports the connection uses
+Press N to find out the IP address behind the domain
+ifstat
+ifstat is really useful if you want to find out how much traffic is going through your server.
+As you can see it shows all interfaces separately, and shows the incoming and outgoing traffic. If the incoming traffic is too big, it could mean that the server is under attack. To find out more about the traffic, you can use iftop or tcpdump.
+lsof
+lsof is really useful to find out that which ports are currently used or something is running on a port or not.
+List all connections on all ports
+lsof -i
+List all connections on a specific port
+lsof -i :#port# //eg. 80
+ls
+You can use ls to list files and dirs in a directory. You can get some additional informations as well.
+Use ls -lh (h stands for human readable form), to display file size in easy to read format. i.e M for MB, K for KB, G for GB.
+
+## mc
+With mc you can delete, move, copy, edit, create files and dirs really easily.
+
+## netstat
+netstat is a tool for monitoring network connections both incoming and outgoing as well as viewing routing tables, interface statistics etc.
+
+## tail
+I have always found the tail command useful for debugging code, or watching syslog outputs. What tail allows you to do is follow the output of a file. Tail has a basic set of commands to extend that functionality including:
+-c, --bytes=N output the last N bytes; alternatively, use +N to output bytes starting with the Nth of each file
+-f, --follow[={name|descriptor}] output appended data as the file grows; -f, --follow, and --follow=descriptor are equivalent
+-n, --lines=N output the last N lines, instead of the last 10; or use +N to output lines starting with the Nth
+--pid=PID with -f, terminate after process ID, PID dies
+-q, --quiet, --silent never output headers giving file names
+--retry keep trying to open a file even when it is or becomes inaccessible; useful when following by name, i.e., with --follow=name
+-s, --sleep-interval=S
+with -f, sleep for approximately S seconds (default 1.0) between iterations
+
+## tcpdump
+tcpdump is the perfect tool to find out almost everything about the incoming and outgoing traffic. By default it gives too much information, as it will list display ALL packets!
+How to use it? You should specify what are you looking for:
+Interface:
+tcpdump -i #interface# //eg. eth0
+Limit capture
+tcpdump -c 100 // capture 100 packets
+Port:
+tcpdump port #port number# //eg. 80
+IP:
+tcpdump host #IP or domain# //eg. 10.10.0.1 OR redsnapper.net
+
+## top
+As you can see top is really similar to htop. The reason why I use it sometimes is that it shows the number of the zombie processes. If there are zombie processes, you should kill them, because they could effect to the server's performance!
+
+
+## First steps
+Where is the client's site
+Which server?
+When is it happens?
+Error message?
+Which software?
+Docklands
+First of all you have to find out that the failure happens on all of the nodes or not?
+Every node
+NFS - timeout
+Code error in: - PHP/Obyx error
+Builder
+Config
+Mortar
+Apache2 virtualhost config error - SSL error/wrong files displayed/wrong Apache2 settings/etc
+MySQL - MySQL related errors like PHP or Obyx cannot connect
+LDAP - cannot login to Builder pages
+Keepalived - timeout
+Firewall - timeout
+Sphinx - PHP/Obyx error
+One node
+Apache2 - PHP/Obyx error
+Keepalived - timeout
+Reins - site runs with old Apache2 settings
+AWS
+AWS load balancer - blank page, SSL issue
+Rackspace
+Optimum Nutrition
+MySQL - PHP cannot connect to MySQL server
+Apache - Blank page, error 404, 403, 503
+Predator Nutrition
+MySQL - PHP cannot connect to MySQL server
+Memcached - caching error, blank page, error 503
+Apache - Blank page, error 404, 403, 503
