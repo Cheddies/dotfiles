@@ -1,0 +1,39 @@
+#Expire a user's password
+sudo chage -d 0 user
+
+#WGET Everything
+wget --page-requisites -e robots=off --wait 0.25 [URL]
+
+#List Processes
+ps -Al
+
+#See USB stuff
+dmesg
+
+#Tmux
+Split Horiz: ctrl-b %
+Split virt: ctrl-b "
+Switch Pane: ctrl-b o
+Kill pane: ctrl-b x
+close all others: ctrl-b !
+swap locations: ctrl-b ctrl-o
+show numbers: ctrl-b q
+list sessions: ctrl-b s OR tmux ls OR tmux list-sessions
+detach: ctrl-b d
+reattach: tmux attach (-d to detach elsewhere)
+
+#Screen
+screen
+Ctrl-A d (detatch)
+screen -r (reattach last)
+screen -ls (list all)
+screen -r [num] reattach specified
+Ctrl-A n (next screen)
+Ctrl-A p (previous screen)
+Ctrl-A n (new screen)
+
+#Iptables
+sudo iptables -S to view
+sudo iptables -L --line-numbers to view with line numbers
+sudo iptables -D INPUT 11 to delete by line
+sudo iptables -A INPUT -s 109.145.80.120/32 -p tcp --dport 22 -m comment --comment "Eddie Home" -j ACCEPT to add a row
