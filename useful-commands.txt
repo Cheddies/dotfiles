@@ -10,6 +10,9 @@ ps -Al
 #See USB stuff
 dmesg
 
+#See time running for a process id
+ls -ld /proc/16191
+
 #Tmux
 Split Horiz: ctrl-b %
 Split virt: ctrl-b "
