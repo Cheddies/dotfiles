@@ -7,6 +7,11 @@ wget --page-requisites -e robots=off --wait 0.25 [URL]
 #List Processes
 ps -Al
 
+#LIst all installed packages
+dpkg --get-selections | grep -v deinstall
+or apt --installed list
+apt-get --purge remove program
+
 #See USB stuff
 dmesg
 
