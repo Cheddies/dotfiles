@@ -31,14 +31,16 @@ detach: ctrl-b d
 reattach: tmux attach (-d to detach elsewhere)
 
 #Screen
-screen
+screen / (Starts screen)
+
 Ctrl-A d (detatch)
-screen -r (reattach last)
-screen -ls (list all)
-screen -r [num] reattach specified
 Ctrl-A n (next screen)
 Ctrl-A p (previous screen)
 Ctrl-A n (new screen)
+
+screen -r (reattach last)
+screen -ls (list all)
+screen -r [num] reattach specified
 
 #Iptables
 sudo iptables -S to view
